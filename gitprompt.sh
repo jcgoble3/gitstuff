@@ -3,6 +3,8 @@
 # indicate if working directory is clean (green, no asterisk) or dirty (red
 # with asterisk).
 #
+# To use: Copy into ~/.bashrc and tweak if desired.
+#
 # Based upon the following gists:
 # <https://gist.github.com/henrik/31631>
 # <https://gist.github.com/srguiwiz/de87bf6355717f0eede5>
