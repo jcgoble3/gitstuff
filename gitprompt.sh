@@ -23,11 +23,11 @@ git_branch() {
 
 git_status() {
     # <http://git-scm.com/docs/git-status>
-    local status=$(git status --porcelain 2>/dev/null)
+    local status="$(git status --porcelain 2>/dev/null)"
     local output=''
-    [[ $status =~ ^[MADRC] ]] && output=$output+
-    [[ $status =~ ^.[MD] ]] && output=$output!
-    [[ $status =~ ^\?\? ]] && output=$output?
+    [[ -n $(echo "$status" | egrep '^[MADRC]') ]] && output="$output+"
+    [[ -n $(echo "$status" | egrep '^.[MD]') ]] && output="$output!"
+    [[ -n $(echo "$status" | egrep '^\?\?') ]] && output="$output?"
     echo $output
 }
 
@@ -39,7 +39,7 @@ git_color() {
     # - Red if there are uncommitted changes with nothing staged
     # - Yellow if there are both staged and unstaged changes
     local staged=$([[ $1 =~ \+ ]] && echo yes)
-    local dirty=$([[ $1 =~ !\? ]] && echo yes)
+    local dirty=$([[ $1 =~ [!\?] ]] && echo yes)
     if [[ -n $staged ]] && [[ -n $dirty ]]; then
         echo -e '\033[1;33m'  # bold yellow
     elif [[ -n $staged ]]; then
@@ -63,6 +63,7 @@ git_prompt() {
         echo -e "$color[$branch|$state]\033[00m"  # last bit resets color
     fi
 }
+
 
 # Sample prompt declaration based off of the default Ubuntu 14.04.1 color
 # prompt. Tweak as you see fit, or just stick "$(git_prompt)" into your
