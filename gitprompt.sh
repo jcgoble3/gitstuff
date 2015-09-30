@@ -23,8 +23,8 @@ git_branch() {
 
 git_dirty() {
     # The --porcelain option produces no output at all if there are
-    # no uncommitted changes. -z tests if the output of the command
-    # is empty; if not empty, dummy text is output. Again, we are not
+    # no uncommitted changes. -n tests if the output of the command
+    # is not empty and outputs dummy text if so. Again, we are not
     # interested in errors.
     if [[ -n $(git status --porcelain 2>/dev/null) ]]; then
         echo yes
