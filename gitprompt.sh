@@ -34,6 +34,7 @@ git_status() {
     [[ -n $(echo "$status" | egrep '^.[MD]') ]] && output="$output!"
     [[ -n $(echo "$status" | egrep '^\?\?') ]] && output="$output?"
     [[ -n $(git stash list) ]] && output="${output}S"
+    [[ -n $output ]] && output="|$output"  # separate from branch name
     echo $output
 }
 
@@ -66,10 +67,9 @@ git_prompt() {
         local state=$(git_status)
         local color=$(git_color $state)
         # Now output the actual code to insert the branch and status
-        echo -e "$color[$branch|$state]\033[00m"  # last bit resets color
+        echo -e "$color[$branch$state]\033[00m"  # last bit resets color
     fi
 }
-
 
 # Sample prompt declaration based off of the default Ubuntu 14.04.1 color
 # prompt. Tweak as you see fit, or just stick "$(git_prompt)" into your
