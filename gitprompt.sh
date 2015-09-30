@@ -26,7 +26,7 @@ git_dirty() {
     # no uncommitted changes. -z tests if the output of the command
     # is empty; if not empty, dummy text is output. Again, we are not
     # interested in errors.
-    if [[ ! -z $(git status --porcelain 2>/dev/null) ]]; then
+    if [[ -n $(git status --porcelain 2>/dev/null) ]]; then
         echo yes
     fi
 }
@@ -46,7 +46,7 @@ git_prompt() {
     local branch=$(git_branch)
     # Empty output? Then we're not in a Git repository, so bypass the rest
     # of the function, producing no output
-    if [[ ! -z $branch ]]; then
+    if [[ -n $branch ]]; then
         local dirty=$(git_dirty)
         local color=$(git_color $dirty)
         local marker=${dirty:+*}  # asterisk if not empty, nothing otherwise
