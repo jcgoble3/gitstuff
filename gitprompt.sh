@@ -28,12 +28,14 @@ git_status() {
     # ! unstaged changes are present
     # ? untracked files are present
     # S changes have been stashed
+    # P local commits need to be pushed to the remote
     local status="$(git status --porcelain 2>/dev/null)"
     local output=''
     [[ -n $(echo "$status" | egrep '^[MADRC]') ]] && output="$output+"
     [[ -n $(echo "$status" | egrep '^.[MD]') ]] && output="$output!"
     [[ -n $(echo "$status" | egrep '^\?\?') ]] && output="$output?"
     [[ -n $(git stash list) ]] && output="${output}S"
+    [[ -n $(git log --branches --not --remotes) ]] && output="${output}P"
     [[ -n $output ]] && output="|$output"  # separate from branch name
     echo $output
 }
