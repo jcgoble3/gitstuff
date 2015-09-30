@@ -32,12 +32,22 @@ git_status() {
 }
 
 git_color() {
-    # Receives output of git_dirty as argument; produces green color code
-    # if argument is empty and red color code otherwise.
-    if [[ -z $1 ]]; then
+    # Receives output of git_status as argument; produces appropriate color
+    # code based on status of working directory:
+    # - White if everything is clean
+    # - Green if all changes are staged
+    # - Red if there are uncommitted changes with nothing staged
+    # - Yellow if there are both staged and unstaged changes
+    local staged=$([[ $1 =~ \+ ]] && echo yes)
+    local dirty=$([[ $1 =~ !\? ]] && echo yes)
+    if [[ -n $staged ]] && [[ -n $dirty ]]; then
+        echo -e '\033[1;33m'  # bold yellow
+    elif [[ -n $staged ]]; then
         echo -e '\033[1;32m'  # bold green
-    else
+    elif [[ -n $dirty ]]; then
         echo -e '\033[1;31m'  # bold red
+    else
+        echo -e '\033[1;37m'  # bold white
     fi
 }
 
