@@ -1,7 +1,6 @@
 # Adds the current branch to the bash prompt when the working directory is
-# part of a Git repository. Includes color-coding and an asterisk to quickly
-# indicate if working directory is clean (green, no asterisk) or dirty (red
-# with asterisk).
+# part of a Git repository. Includes color-coding and indicators to quickly
+# indicate if status of working directory.
 #
 # To use: Copy into ~/.bashrc and tweak if desired.
 #
