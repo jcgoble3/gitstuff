@@ -21,14 +21,14 @@ git_branch() {
     git branch --no-color 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'
 }
 
-git_dirty() {
-    # The --porcelain option produces no output at all if there are
-    # no uncommitted changes. -n tests if the output of the command
-    # is not empty and outputs dummy text if so. Again, we are not
-    # interested in errors.
-    if [[ -n $(git status --porcelain 2>/dev/null) ]]; then
-        echo yes
-    fi
+git_status() {
+    # <http://git-scm.com/docs/git-status>
+    local status=$(git status --porcelain 2>/dev/null)
+    local output=''
+    [[ $status =~ ^[MADRC] ]] && output=$output+
+    [[ $status =~ ^.[MD] ]] && output=$output!
+    [[ $status =~ ^\?\? ]] && output=$output?
+    echo $output
 }
 
 git_color() {
@@ -47,11 +47,10 @@ git_prompt() {
     # Empty output? Then we're not in a Git repository, so bypass the rest
     # of the function, producing no output
     if [[ -n $branch ]]; then
-        local dirty=$(git_dirty)
-        local color=$(git_color $dirty)
-        local marker=${dirty:+*}  # asterisk if not empty, nothing otherwise
+        local state=$(git_status)
+        local color=$(git_color $state)
         # Now output the actual code to insert the branch and status
-        echo -e "$color[$branch$marker]\033[00m"  # last bit resets color
+        echo -e "$color[$branch|$state]\033[00m"  # last bit resets color
     fi
 }
 
