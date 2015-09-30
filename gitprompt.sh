@@ -22,7 +22,12 @@ git_branch() {
 }
 
 git_status() {
-    # <http://git-scm.com/docs/git-status>
+    # Outputs a series of indicators based on the status of the
+    # working directory:
+    # + changes are staged and ready to commit
+    # ! unstaged changes are present
+    # ? untracked files are present
+    # S changes have been stashed
     local status="$(git status --porcelain 2>/dev/null)"
     local output=''
     [[ -n $(echo "$status" | egrep '^[MADRC]') ]] && output="$output+"
