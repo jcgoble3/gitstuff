@@ -28,6 +28,7 @@ git_status() {
     [[ -n $(echo "$status" | egrep '^[MADRC]') ]] && output="$output+"
     [[ -n $(echo "$status" | egrep '^.[MD]') ]] && output="$output!"
     [[ -n $(echo "$status" | egrep '^\?\?') ]] && output="$output?"
+    [[ -n $(git stash list) ]] && output="${output}S"
     echo $output
 }
 
