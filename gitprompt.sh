@@ -1,6 +1,6 @@
 # Adds the current branch to the bash prompt when the working directory is
 # part of a Git repository. Includes color-coding and indicators to quickly
-# indicate if status of working directory.
+# indicate the status of working directory.
 #
 # To use: Copy into ~/.bashrc and tweak if desired.
 #
