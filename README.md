@@ -6,7 +6,14 @@ All code licensed MIT unless stated otherwise.
 
 ## gitprompt.sh
 Code to insert the current branch and status into your bash prompt. Add to
-~/.bashrc to use.
+~/.bashrc to use. Colors produced by the `git_color` function can be tweaked as
+desired; see [this article](http://bitmote.com/index.php?post/2012/11/19/Using-ANSI-Color-Codes-to-Colorize-Your-Bash-Prompt-on-Linux)
+for the codes needed. In particular, the colors specified in this snippet
+assume a black or otherwise dark background in your terminal; if you use a
+terminal with a white or light-colored background, you'll want to change the
+color for a clean directory (which is set to `1;37m`/white here) and possibly
+the color for having both staged and unstaged changes (set to `1;33m`/yellow
+here).
 
 Based on:
 * [Original gist](https://gist.github.com/henrik/31631)
