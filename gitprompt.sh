@@ -46,14 +46,18 @@ git_color() {
     # - Green if all changes are staged
     # - Red if there are uncommitted changes with nothing staged
     # - Yellow if there are both staged and unstaged changes
+    # - Blue if there are unpushed commits
     local staged=$([[ $1 =~ \+ ]] && echo yes)
     local dirty=$([[ $1 =~ [!\?] ]] && echo yes)
+    local needs_push=$([[ $1 =~ P ]] && echo yes)
     if [[ -n $staged ]] && [[ -n $dirty ]]; then
         echo -e '\033[1;33m'  # bold yellow
     elif [[ -n $staged ]]; then
         echo -e '\033[1;32m'  # bold green
     elif [[ -n $dirty ]]; then
         echo -e '\033[1;31m'  # bold red
+    elif [[ -n $needs_push ]]; then
+        echo -e '\033[1;34m' # bold blue
     else
         echo -e '\033[1;37m'  # bold white
     fi
@@ -72,8 +76,7 @@ git_prompt() {
     fi
 }
 
-# Sample prompt declaration based off of the default Ubuntu 14.04.1 color
-# prompt. Tweak as you see fit, or just stick "$(git_prompt)" into your
-# favorite prompt.
-PS1='$debian_chroot\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w$(git_prompt)\[\033[00m\]\$ '
+# Sample prompt declaration. Tweak as you see fit, or just stick
+# "$(git_prompt)" into your favorite prompt.
+PS1='\u@\h:\w$(git_prompt)\[\033[00m\]\$ '
 
